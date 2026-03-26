@@ -330,6 +330,26 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ========================================
+  // 12. MOBILE MENU TOGGLE
+  // ========================================
+  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileLinks = document.querySelectorAll('.mobile-link');
+  
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    
+    // Close menu when clicking a link
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+  }
+
+  // ========================================
   // CLEANUP
   // ========================================
   window.addEventListener('load', () => {

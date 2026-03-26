@@ -116,9 +116,7 @@ html.lenis, html.lenis body {
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-#navbar.scrolled {
-  /* pill already has glass effect via Tailwind classes */
-}
+/* #navbar.scrolled pill already has glass effect via Tailwind classes */
 
 /* ---- Intelligence Pulse (accent line) ---- */
 .pulse-line {
@@ -163,16 +161,29 @@ html.lenis, html.lenis body {
 }
 
 /* ---- Responsive Tweaks ---- */
+@media (max-width: 1024px) {
+  #hero h1 {
+    font-size: 4.5rem !important;
+  }
+}
+
 @media (max-width: 768px) {
   #hero h1 {
     font-size: 3rem !important;
     line-height: 0.95 !important;
+  }
+  /* Hide non-essential parallax on tablet/mobile */
+  .parallax-el:nth-child(n+5) {
+    display: none !important;
   }
 }
 
 @media (max-width: 480px) {
   #hero h1 {
     font-size: 2.2rem !important;
+  }
+  .parallax-el:nth-child(n+3) {
+    display: none !important;
   }
 }
 
@@ -290,17 +301,21 @@ html.lenis, html.lenis body {
 }
 
 /* Responsive adjustments for scrollytelling */
+@media (max-width: 1024px) {
+  #scrolly-frame {
+    width: 900px !important;
+    max-width: none !important;
+    transform: scale(0.85);
+    transform-origin: center center;
+  }
+}
+
 @media (max-width: 768px) {
   #scrolly-frame {
-    height: 70vh;
-  }
-
-  #scrolly-textbook {
-    width: 200px !important;
-  }
-
-  #scrolly-qpaper {
-    width: 220px !important;
+    width: 800px !important;
+    max-width: none !important;
+    transform: scale(0.65);
+    transform-origin: center center;
   }
 
   #scrolly-thumbs {
@@ -308,6 +323,20 @@ html.lenis, html.lenis body {
   }
 
   #scrolly-status {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  #scrolly-frame {
+    width: 750px !important;
+    max-width: none !important;
+    transform: scale(0.48);
+    transform-origin: center center;
+  }
+  
+  #scrolly-status {
     font-size: 10px;
   }
 }
+
