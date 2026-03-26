@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ExamForge AI — Turn Textbooks Into Exams Instantly</title>
+  <meta name="description" content="ExamForge AI instantly converts heavy academic materials into custom practice exams. Upload your syllabus, get perfectly formatted question papers." />
+
+  <!-- Google Fonts: Inter + Space Grotesk + Syncopate + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syncopate:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Space Grotesk"', 'sans-serif'],
+            body: ['"Inter"', 'sans-serif'],
+            accent: ['"Syncopate"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            obsidian: '#F4F3ED',
+            carbon: '#FFFFFF',
+            slate: '#1E2320',
+            ash: '#1E2320',
+            steel: '#6B7280',
+            bone: '#1E2320',
+            electric: '#9F1D35',
+            electricDark: '#781525',
+            electricGlow: '#D4AF37',
+            volt: '#D4AF37',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="bg-obsidian text-bone font-body overflow-x-hidden">
+
+  <!-- ============================================ -->
+  <!-- PARALLAX FLOATING ELEMENTS (Background Layer) -->
+  <!-- ============================================ -->
+  <div id="parallax-layer" class="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+    <!-- Cartoon Open Book -->
+    <div class="parallax-el" data-speed="0.3" style="top:8%; left:6%;">
+      <svg class="w-24 h-24 rotate-[-12deg]" viewBox="0 0 80 80" fill="none">
+        <rect x="8" y="20" width="28" height="40" rx="3" fill="#9F1D35" opacity="0.18" stroke="#9F1D35" stroke-width="2" stroke-linecap="round" opacity="0.4" />
+        <rect x="36" y="20" width="28" height="40" rx="3" fill="#D4AF37" opacity="0.12" stroke="#9F1D35" stroke-width="2" stroke-linecap="round" opacity="0.35" />
+        <line x1="36" y1="22" x2="36" y2="58" stroke="#9F1D35" stroke-width="2.5" opacity="0.5" />
+        <line x1="14" y1="32" x2="30" y2="32" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" opacity="0.35" />
+        <line x1="14" y1="38" x2="28" y2="38" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" opacity="0.3" />
+        <line x1="14" y1="44" x2="26" y2="44" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" opacity="0.25" />
+        <line x1="42" y1="32" x2="58" y2="32" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" opacity="0.35" />
+        <line x1="42" y1="38" x2="56" y2="38" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" opacity="0.3" />
+      </svg>
+    </div>
+    <!-- Cartoon Floating Page -->
+    <div class="parallax-el" data-speed="0.6" style="top:20%; right:9%;">
+      <svg class="w-16 h-16 rotate-[10deg]" viewBox="0 0 60 60" fill="none">
+        <rect x="10" y="5" width="35" height="45" rx="4" fill="#D4AF37" opacity="0.15" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" opacity="0.4" />
+        <path d="M33 5 L45 5 L45 17 Z" fill="#D4AF37" opacity="0.2" />
+        <path d="M33 5 L33 17 L45 17" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.4" />
+        <line x1="16" y1="22" x2="38" y2="22" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" opacity="0.35" />
+        <line x1="16" y1="28" x2="34" y2="28" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" opacity="0.3" />
+        <line x1="16" y1="34" x2="30" y2="34" stroke="#D4AF37" stroke-width="1.5" stroke-linecap="round" opacity="0.25" />
+      </svg>
+    </div>
+    <!-- Cartoon Pencil -->
+    <div class="parallax-el" data-speed="0.2" style="top:42%; left:4%;">
+      <svg class="w-20 h-20 rotate-[40deg]" viewBox="0 0 80 80" fill="none">
+        <rect x="30" y="10" width="12" height="45" rx="2" fill="#9F1D35" opacity="0.2" stroke="#9F1D35" stroke-width="2" stroke-linecap="round" opacity="0.45" />
+        <polygon points="30,55 42,55 36,68" fill="#9F1D35" opacity="0.25" stroke="#9F1D35" stroke-width="1.5" stroke-linejoin="round" opacity="0.4" />
+        <rect x="30" y="10" width="12" height="8" rx="1" fill="#D4AF37" opacity="0.2" stroke="#D4AF37" stroke-width="1.5" opacity="0.4" />
+      </svg>
+    </div>
+    <!-- Cartoon Graduation Cap -->
+    <div class="parallax-el" data-speed="0.8" style="top:55%; right:6%;">
+      <svg class="w-20 h-20 rotate-[-8deg]" viewBox="0 0 80 80" fill="none">
+        <polygon points="40,18 10,35 40,52 70,35" fill="#9F1D35" opacity="0.18" stroke="#9F1D35" stroke-width="2" stroke-linejoin="round" opacity="0.4" />
+        <rect x="24" y="38" width="32" height="14" rx="2" fill="#D4AF37" opacity="0.12" stroke="#9F1D35" stroke-width="1.5" opacity="0.35" />
+        <line x1="65" y1="35" x2="65" y2="55" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" opacity="0.5" />
+        <circle cx="65" cy="56" r="3" fill="#D4AF37" opacity="0.35" stroke="#D4AF37" stroke-width="1.5" opacity="0.5" />
+      </svg>
+    </div>
+    <!-- Cartoon Book Stack -->
+    <div class="parallax-el" data-speed="0.4" style="top:72%; left:10%;">
+      <svg class="w-20 h-20 rotate-[4deg]" viewBox="0 0 80 80" fill="none">
+        <rect x="12" y="50" width="50" height="10" rx="3" fill="#9F1D35" opacity="0.2" stroke="#9F1D35" stroke-width="2" stroke-linecap="round" opacity="0.4" />
+        <rect x="16" y="38" width="46" height="10" rx="3" fill="#D4AF37" opacity="0.15" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" opacity="0.35" />
+        <rect x="10" y="26" width="52" height="10" rx="3" fill="#D4AF37" opacity="0.12" stroke="#D4AF37" stroke-width="2" stroke-linecap="round" opacity="0.3" />
+      </svg>
+    </div>
+    <!-- Cartoon Star / Sparkle -->
+    <div class="parallax-el" data-speed="0.5" style="top:30%; left:80%;">
+      <svg class="w-14 h-14" viewBox="0 0 50 50" fill="none">
+        <path d="M25 5 L28 20 L43 20 L30 28 L34 43 L25 33 L16 43 L20 28 L7 20 L22 20 Z" fill="#9F1D35" opacity="0.18" stroke="#9F1D35" stroke-width="1.5" stroke-linejoin="round" opacity="0.4" />
+      </svg>
+    </div>
+    <!-- Cartoon Clipboard -->
+    <div class="parallax-el" data-speed="0.7" style="top:80%; right:16%;">
+      <svg class="w-16 h-16 rotate-[-8deg]" viewBox="0 0 60 60" fill="none">
+        <rect x="10" y="12" width="36" height="42" rx="4" fill="#9F1D35" opacity="0.15" stroke="#9F1D35" stroke-width="2" stroke-linecap="round" opacity="0.4" />
+        <rect x="18" y="8" width="20" height="8" rx="3" fill="#D4AF37" opacity="0.2" stroke="#9F1D35" stroke-width="1.5" opacity="0.4" />
+        <path d="M18 30 L24 36 L38 22" stroke="#D4AF37" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5" />
+      </svg>
+    </div>
+    <!-- Cartoon Lightbulb -->
+    <div class="parallax-el" data-speed="0.35" style="top:48%; left:52%;">
+      <svg class="w-16 h-16 rotate-[10deg]" viewBox="0 0 60 60" fill="none">
+        <path d="M30 8 C18 8 10 18 10 28 C10 35 15 40 20 43 L20 48 L40 48 L40 43 C45 40 50 35 50 28 C50 18 42 8 30 8Z" fill="#9F1D35" opacity="0.15" stroke="#9F1D35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.4" />
+        <line x1="22" y1="52" x2="38" y2="52" stroke="#9F1D35" stroke-width="1.5" stroke-linecap="round" opacity="0.4" />
+        <line x1="24" y1="56" x2="36" y2="56" stroke="#9F1D35" stroke-width="1.5" stroke-linecap="round" opacity="0.35" />
+        <line x1="30" y1="20" x2="30" y2="34" stroke="#9F1D35" stroke-width="1.5" stroke-linecap="round" opacity="0.45" />
+        <line x1="24" y1="28" x2="36" y2="28" stroke="#9F1D35" stroke-width="1.5" stroke-linecap="round" opacity="0.45" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- ================================ -->
+  <!-- NAVIGATION -->
+  <!-- ================================ -->
+  <nav id="navbar" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500">
+    <div class="bg-obsidian/80 backdrop-blur-xl border border-ash/40 rounded-full px-6 lg:px-8 py-3 flex items-center gap-6 lg:gap-8">
+      <a href="#" class="flex items-center gap-2 group">
+        <span class="font-display font-bold text-base tracking-tight text-bone">EXAMFORGE</span>
+        <span class="text-[10px] font-mono bg-electric text-obsidian px-1.5 py-0.5 rounded font-bold">AI</span>
+      </a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="#scrollytelling" class="text-steel text-sm hover:text-bone transition-colors duration-300">How It Works</a>
+        <a href="#formats" class="text-steel text-sm hover:text-bone transition-colors duration-300">Formats</a>
+        <a href="#features" class="text-steel text-sm hover:text-bone transition-colors duration-300">Features</a>
+        <a href="#paths" class="text-steel text-sm hover:text-bone transition-colors duration-300">Get Started</a>
+      </div>
+      <a href="#paths" class="hidden md:inline-block px-5 py-2.5 bg-transparent border border-electric text-electric text-sm font-display font-semibold rounded-full hover:bg-electric hover:text-obsidian transition-all duration-300">
+        Start Free
+      </a>
+    </div>
+  </nav>
+
+  <!-- ================================ -->
+  <!-- SECTION 1: HERO -->
+  <!-- ================================ -->
+  <section id="hero" class="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 z-10">
+    <!-- Hero Background Glow -->
+    <div id="hero-glow" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-electric/5 rounded-full blur-[120px] opacity-0"></div>
+
+    <div class="relative z-10 text-center max-w-6xl mx-auto">
+      <!-- Eyebrow -->
+      <div class="hero-line overflow-hidden mb-6">
+        <p class="hero-text font-accent text-xs tracking-[0.3em] uppercase text-electric">
+          AI-Powered Exam Generation
+        </p>
+      </div>
+
+      <!-- Main Headline -->
+      <div class="hero-line overflow-hidden mb-2">
+        <h1 class="hero-text font-display font-bold text-5xl sm:text-7xl lg:text-[6.5rem] leading-[0.9] tracking-tight text-bone">
+          Turn Textbooks
+        </h1>
+      </div>
+      <div class="hero-line overflow-hidden mb-2">
+        <h1 class="hero-text font-display font-bold text-5xl sm:text-7xl lg:text-[6.5rem] leading-[0.9] tracking-tight text-bone">
+          Into <span class="text-electric">Exams</span>
+        </h1>
+      </div>
+      <div class="hero-line overflow-hidden mb-10">
+        <h1 class="hero-text font-display font-bold text-5xl sm:text-7xl lg:text-[6.5rem] leading-[0.9] tracking-tight text-bone">
+          Instantly.
+        </h1>
+      </div>
+
+      <!-- Subline -->
+      <div class="hero-line overflow-hidden mb-12">
+        <p class="hero-text text-steel text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
+          Upload your syllabus or textbook. Our AI engine extracts key concepts and generates perfectly formatted, ready-to-use question papers in seconds.
+        </p>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="hero-line overflow-hidden">
+        <div class="hero-text flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="#paths" class="inline-block px-10 py-4 bg-electric text-obsidian font-display font-semibold text-base hover:brightness-110 transition-all duration-300">
+            Generate Your First Exam →
+          </a>
+          <a href="#how-it-works" class="inline-block px-10 py-4 border border-ash text-bone font-display font-medium text-base hover:border-electric hover:text-electric transition-all duration-300">
+            See How It Works
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+  </section>
+
+  <!-- ================================================ -->
+  <!-- SCROLLYTELLING: Book → Scan → Analyze → Generate -->
+  <!-- ================================================ -->
+  <section id="scrollytelling" class="relative z-10">
+    <div id="scrolly-pin" class="relative w-full" style="height: 700vh;">
+      <!-- Pinned Viewport -->
+      <div id="scrolly-viewport" class="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden">
+        <!-- Terminal Frame -->
+        <div id="scrolly-frame" class="relative w-[92vw] max-w-[1100px] h-[75vh] bg-carbon border border-ash/30 rounded-lg overflow-hidden">
+          <!-- Grid Background -->
+          <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(rgba(30,35,32,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(30,35,32,0.15) 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+          <!-- Progress Bar -->
+          <div class="absolute top-6 left-1/2 -translate-x-1/2 w-48 h-2 bg-ash/30 rounded-full overflow-hidden">
+            <div id="scrolly-progress" class="h-full bg-electric rounded-full transition-none" style="width: 0%;"></div>
+          </div>
+
+          <!-- Status Text -->
+          <p id="scrolly-status" class="absolute top-12 left-1/2 -translate-x-1/2 font-mono text-sm tracking-[0.15em] text-steel uppercase whitespace-nowrap">
+            UPLOAD YOUR TEXTBOOK...
+          </p>
+
+          <!-- Phase Indicator (vertical bars) -->
+          <div id="scrolly-bars" class="absolute top-6 right-8 flex gap-1">
+            <div class="scrolly-bar w-2 h-6 bg-ash/40 rounded-sm" data-phase="1"></div>
+            <div class="scrolly-bar w-2 h-6 bg-ash/40 rounded-sm" data-phase="2"></div>
+            <div class="scrolly-bar w-2 h-6 bg-ash/40 rounded-sm" data-phase="3"></div>
+            <div class="scrolly-bar w-2 h-6 bg-ash/40 rounded-sm" data-phase="4"></div>
+            <div class="scrolly-bar w-2 h-6 bg-ash/40 rounded-sm" data-phase="5"></div>
+          </div>
+
+          <!-- Viewfinder Brackets -->
+          <div class="absolute top-[22%] left-[12%] w-6 h-6 border-l-2 border-t-2 border-steel/40"></div>
+          <div class="absolute top-[22%] right-[12%] w-6 h-6 border-r-2 border-t-2 border-steel/40"></div>
+          <div class="absolute top-[50%] left-[12%] w-3 h-0 border-t-2 border-steel/30"></div>
+          <div class="absolute top-[50%] right-[12%] w-3 h-0 border-t-2 border-steel/30"></div>
+          <div class="absolute bottom-[22%] left-[12%] w-6 h-6 border-l-2 border-b-2 border-steel/40"></div>
+          <div class="absolute bottom-[22%] right-[12%] w-6 h-6 border-r-2 border-b-2 border-steel/40"></div>
+
+          <!-- Scan Line -->
+          <div id="scrolly-scanline" class="absolute left-[14%] right-[14%] h-[2px] bg-electric shadow-[0_0_12px_rgba(37,99,235,0.6)] opacity-0" style="top: 22%;"></div>
+
+          <!-- TEXTBOOK PAGE 1: Data Structures -->
+          <div id="scrolly-page1" class="scrolly-page absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] opacity-0" style="transform: translate(-50%, 80%);">
+            <div class="bg-[#f5f0e8] rounded shadow-2xl p-5 font-mono text-[10px] text-gray-800 leading-relaxed">
+              <div class="text-center font-bold text-sm mb-2 text-gray-900">CHAPTER 5: DATA STRUCTURES</div>
+              <div class="border-b border-gray-300 mb-2"></div>
+              <p class="mb-1.5 font-bold text-xs">5.1 Introduction to Trees</p>
+              <p class="mb-1.5 text-gray-600">A tree is a hierarchical data structure consisting of nodes connected by edges. The topmost node is called the root.</p>
+              <p class="mb-1.5 font-bold text-xs">5.2 Binary Search Trees</p>
+              <p class="mb-1.5 text-gray-600">A BST is a binary tree where for each node, all elements in the left subtree are smaller and all elements in the right subtree are larger.</p>
+              <p class="mb-1.5 font-bold text-xs">5.3 Tree Traversal</p>
+              <p class="text-gray-600">Three main methods: Inorder, Preorder, and Postorder traversal.</p>
+              <div class="mt-2 flex items-center justify-between text-gray-400 text-[8px]">
+                <span>Page 127</span>
+                <span>ISBN 978-0-13-468599-1</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TEXTBOOK PAGE 2: Operating Systems -->
+          <div id="scrolly-page2" class="scrolly-page absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] opacity-0" style="transform: translate(-50%, 80%);">
+            <div class="bg-[#f5f0e8] rounded shadow-2xl p-5 font-mono text-[10px] text-gray-800 leading-relaxed">
+              <div class="text-center font-bold text-sm mb-2 text-gray-900">CHAPTER 3: OPERATING SYSTEMS</div>
+              <div class="border-b border-gray-300 mb-2"></div>
+              <p class="mb-1.5 font-bold text-xs">3.1 Process Management</p>
+              <p class="mb-1.5 text-gray-600">A process is a program in execution. The OS manages process creation, scheduling, and termination.</p>
+              <p class="mb-1.5 font-bold text-xs">3.2 CPU Scheduling</p>
+              <p class="mb-1.5 text-gray-600">Scheduling algorithms: FCFS, SJF, Round Robin, and Priority Scheduling determine which process runs next.</p>
+              <p class="mb-1.5 font-bold text-xs">3.3 Deadlocks</p>
+              <p class="text-gray-600">A deadlock occurs when processes wait for resources held by each other indefinitely.</p>
+              <div class="mt-2 flex items-center justify-between text-gray-400 text-[8px]">
+                <span>Page 89</span>
+                <span>ISBN 978-0-13-468599-1</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TEXTBOOK PAGE 3: Computer Networks -->
+          <div id="scrolly-page3" class="scrolly-page absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] opacity-0" style="transform: translate(-50%, 80%);">
+            <div class="bg-[#f5f0e8] rounded shadow-2xl p-5 font-mono text-[10px] text-gray-800 leading-relaxed">
+              <div class="text-center font-bold text-sm mb-2 text-gray-900">CHAPTER 7: COMPUTER NETWORKS</div>
+              <div class="border-b border-gray-300 mb-2"></div>
+              <p class="mb-1.5 font-bold text-xs">7.1 OSI Model</p>
+              <p class="mb-1.5 text-gray-600">The OSI model has 7 layers: Physical, Data Link, Network, Transport, Session, Presentation, Application.</p>
+              <p class="mb-1.5 font-bold text-xs">7.2 TCP vs UDP</p>
+              <p class="mb-1.5 text-gray-600">TCP is connection-oriented and reliable. UDP is connectionless and faster but unreliable.</p>
+              <p class="mb-1.5 font-bold text-xs">7.3 IP Addressing</p>
+              <p class="text-gray-600">IPv4 uses 32-bit addresses. IPv6 uses 128-bit addresses to solve exhaustion.</p>
+              <div class="mt-2 flex items-center justify-between text-gray-400 text-[8px]">
+                <span>Page 203</span>
+                <span>ISBN 978-0-13-468599-1</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Side Thumbnails — each individually targetable -->
+          <div id="scrolly-thumbs" class="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-2 opacity-0">
+            <div id="thumb-1" class="scrolly-thumb w-12 h-16 bg-[#f5f0e8]/10 border border-steel/20 rounded-sm flex items-center justify-center transition-all duration-300">
+              <div class="thumb-bar w-8 h-1 bg-steel/30 rounded"></div>
+            </div>
+            <div id="thumb-2" class="scrolly-thumb w-12 h-16 bg-[#f5f0e8]/10 border border-steel/20 rounded-sm flex items-center justify-center transition-all duration-300">
+              <div class="thumb-bar w-8 h-1 bg-steel/30 rounded"></div>
+            </div>
+            <div id="thumb-3" class="scrolly-thumb w-12 h-16 bg-[#f5f0e8]/10 border border-steel/20 rounded-sm flex items-center justify-center transition-all duration-300">
+              <div class="thumb-bar w-8 h-1 bg-steel/30 rounded"></div>
+            </div>
+          </div>
+
+          <!-- Highlight Overlays -->
+          <div id="scrolly-highlights" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] pointer-events-none opacity-0">
+            <div class="relative h-[200px]">
+              <div class="absolute top-[40px] left-0 right-0 h-3 bg-electric/15 rounded"></div>
+              <div class="absolute top-[85px] left-0 right-0 h-3 bg-electric/15 rounded"></div>
+              <div class="absolute top-[130px] left-0 right-0 h-3 bg-electric/15 rounded"></div>
+            </div>
+          </div>
+
+          <!-- 3 QUESTION PAPERS (side by side, same size as scanned pages) -->
+          <!-- QP 3: Computer Networks (right side, tilted) -->
+          <div id="scrolly-qp3" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] opacity-0 scale-90">
+            <div class="bg-[#f5f0e8] rounded shadow-2xl p-5 font-mono text-[10px] text-gray-800 leading-relaxed">
+              <div class="text-center font-bold text-sm mb-2 text-gray-900">QUESTION PAPER</div>
+              <div class="text-center text-[9px] text-gray-500 mb-1">Computer Networks — 2026</div>
+              <div class="border-b border-gray-300 mb-2"></div>
+              <p class="mb-1.5"><strong>Q1.</strong> Explain all seven layers of the OSI model. <span class="text-gray-400 text-[8px]">[10]</span></p>
+              <p class="mb-1.5"><strong>Q2.</strong> Compare TCP and UDP protocols. <span class="text-gray-400 text-[8px]">[10]</span></p>
+              <p class="mb-1.5"><strong>Q3.</strong> Differentiate IPv4 and IPv6 addressing. <span class="text-gray-400 text-[8px]">[10]</span></p>
+              <p class="mb-1.5"><strong>Q4.</strong> What is subnetting? Explain with example. <span class="text-gray-400 text-[8px]">[10]</span></p>
+              <p class="mb-1.5"><strong>Q5.</strong> Describe the DNS resolution process. <span class="text-gray-400 text-[8px]">[10]</span></p>
+              <div class="mt-2 flex items-center justify-between text-gray-400 text-[8px]">
+                <span>Generated by ExamForge AI</span>
+                <span>Max Marks: 50</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- QP 2: Operating Systems (left side, tilted) -->
+          <div id="scrolly-qp2" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] opacity-0 scale-90">
+            <div class="bg-[#f5f0e8] rounded shadow-2xl p-5 font-mono text-[10px] text-gray-800 leading-relaxed">
+              <div class="text-center font-bold text-sm mb-2 text-gray-900">QUESTION PAPER</div>
+              <div class="text-center text-[9px] text-gray-500 mb-1">Operating Systems — 2026</div>
+              <div class="border-b border-gray-300 mb-2"></div>
+              <p class="mb-1.5"><strong>Q1.</strong> Define deadlock. State necessary conditions. <span class="text-gray-400 text-[8px]">[10]</span></p>
+              <p class="mb-1.5"><strong>Q2.</strong> Explain Round Robin CPU scheduling. <span class="text-gray-400 text-[8px]">[10]</span></p>
+              <p class="mb-1.5"><strong>Q3.</strong> Compare paging and segmentation. <span class="text-gray-400 text-[8px]">[10]</span></p>
+              <p class="mb-1.5"><strong>Q4.</strong> What is a semaphore? Explain types. <span class="text-gray-400 text-[8px]">[10]</span></p>
+              <p class="mb-1.5"><strong>Q5.</strong> Differentiate process and thread. <span class="text-gray-400 text-[8px]">[10]</span></p>
+              <div class="mt-2 flex items-center justify-between text-gray-400 text-[8px]">
+                <span>Generated by ExamForge AI</span>
+                <span>Max Marks: 50</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- QP 1: Data Structures (center) -->
+          <div id="scrolly-qp1" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] opacity-0 scale-90">
+            <div class="bg-[#f5f0e8] rounded shadow-2xl p-5 font-mono text-[10px] text-gray-800 leading-relaxed">
+              <div class="text-center font-bold text-sm mb-2 text-gray-900">QUESTION PAPER</div>
+              <div class="text-center text-[9px] text-gray-500 mb-1">Data Structures — Final Exam 2026</div>
+              <div class="border-b border-gray-300 mb-2"></div>
+              <p class="mb-1.5"><strong>Q1.</strong> Define a BST. Explain properties & operations. <span class="text-gray-400 text-[8px]">[20]</span></p>
+              <p class="mb-1.5"><strong>Q2.</strong> Compare Inorder, Preorder & Postorder traversals. <span class="text-gray-400 text-[8px]">[20]</span></p>
+              <p class="mb-1.5"><strong>Q3.</strong> Analyse time complexity of BST operations. <span class="text-gray-400 text-[8px]">[20]</span></p>
+              <p class="mb-1.5"><strong>Q4.</strong> Explain AVL tree rotations with examples. <span class="text-gray-400 text-[8px]">[20]</span></p>
+              <p class="mb-1.5"><strong>Q5.</strong> Write algorithm for BFS graph traversal. <span class="text-gray-400 text-[8px]">[20]</span></p>
+              <div class="mt-2 flex items-center justify-between text-gray-400 text-[8px]">
+                <span>Generated by ExamForge AI</span>
+                <span>✓ 3 Papers Ready</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Completion checkmark -->
+          <div id="scrolly-complete" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 scale-50">
+            <svg class="w-20 h-20" viewBox="0 0 80 80" fill="none">
+              <circle cx="40" cy="40" r="36" stroke="#9F1D35" stroke-width="3" opacity="0.3" />
+              <path d="M24 40 L35 51 L56 30" stroke="#9F1D35" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+
+          <!-- Bottom info bar -->
+          <div class="absolute bottom-4 left-6 font-mono text-[10px] text-steel/60">
+            <span class="text-electric/80">●</span> AI<br/>
+            Version: 1.0<br/>
+            Model: EF-9000
+          </div>
+          <div class="absolute bottom-4 right-6 font-mono text-[10px] text-steel/40">
+            QXEF87523&-AIJB3190
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================ -->
+  <!-- SECTION DIVIDER: Book Spine Decoration -->
+  <!-- ================================ -->
+  <div class="relative z-10 flex items-center justify-center py-8" aria-hidden="true">
+    <div class="h-px flex-1 max-w-xs bg-gradient-to-r from-transparent to-ash/40"></div>
+    <svg class="w-10 h-10 text-electric/20 mx-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+      <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+    </svg>
+    <div class="h-px flex-1 max-w-xs bg-gradient-to-l from-transparent to-ash/40"></div>
+  </div>
+
+  <!-- ================================ -->
+  <!-- SECTION 2: HOW IT WORKS (3 Steps) -->
+  <!-- ================================ -->
+  <section id="how-it-works" class="relative py-32 lg:py-44 px-6 z-10">
+    <div class="max-w-7xl mx-auto">
+      <!-- Section Label -->
+      <div class="step-reveal mb-6">
+        <p class="font-accent text-xs tracking-[0.3em] uppercase text-electric">The Process</p>
+      </div>
+      <div class="step-reveal mb-20 lg:mb-28">
+        <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight">
+          Three Steps.<br/>
+          <span class="text-steel">Zero Effort.</span>
+        </h2>
+      </div>
+
+      <!-- Steps Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+
+        <!-- Step 1: Upload -->
+        <div class="step-card step-reveal group">
+          <div class="h-full bg-carbon border border-ash/30 p-8 lg:p-10 hover:border-electric/40 transition-all duration-500">
+            <div class="flex items-center gap-4 mb-8">
+              <span class="font-accent text-xs tracking-[0.2em] text-electric">01</span>
+              <div class="h-px flex-1 bg-ash group-hover:bg-electric/30 transition-colors duration-500"></div>
+            </div>
+            <!-- Icon -->
+            <div class="w-16 h-16 bg-electric/10 flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-electric" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+            </div>
+            <h3 class="font-display font-semibold text-2xl mb-4">Upload Material</h3>
+            <p class="text-steel leading-relaxed">Drop your textbooks, syllabi, lecture notes, or any academic PDF. Our parser handles even the most complex formatting.</p>
+          </div>
+        </div>
+
+        <!-- Step 2: Process -->
+        <div class="step-card step-reveal group">
+          <div class="h-full bg-carbon border border-ash/30 p-8 lg:p-10 hover:border-electric/40 transition-all duration-500">
+            <div class="flex items-center gap-4 mb-8">
+              <span class="font-accent text-xs tracking-[0.2em] text-electric">02</span>
+              <div class="h-px flex-1 bg-ash group-hover:bg-electric/30 transition-colors duration-500"></div>
+            </div>
+            <div class="w-16 h-16 bg-electric/10 flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-electric" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 class="font-display font-semibold text-2xl mb-4">AI Processes</h3>
+            <p class="text-steel leading-relaxed">Our AI engine analyzes content, identifies key concepts, Bloom's taxonomy levels, and maps them to question patterns used in real exams.</p>
+          </div>
+        </div>
+
+        <!-- Step 3: Generate -->
+        <div class="step-card step-reveal group">
+          <div class="h-full bg-carbon border border-ash/30 p-8 lg:p-10 hover:border-electric/40 transition-all duration-500">
+            <div class="flex items-center gap-4 mb-8">
+              <span class="font-accent text-xs tracking-[0.2em] text-electric">03</span>
+              <div class="h-px flex-1 bg-ash group-hover:bg-electric/30 transition-colors duration-500"></div>
+            </div>
+            <div class="w-16 h-16 bg-electric/10 flex items-center justify-center mb-6">
+              <svg class="w-7 h-7 text-electric" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <h3 class="font-display font-semibold text-2xl mb-4">Exam Ready</h3>
+            <p class="text-steel leading-relaxed">Download perfectly formatted question papers — MCQs, short answers, essays, case studies — calibrated to your exact curriculum.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+  <!-- SECTION 3: HORIZONTAL SCROLL — Exam Formats -->
+  <!-- ============================================ -->
+  <section id="formats" class="relative py-24 z-10">
+    <div class="max-w-7xl mx-auto px-6 mb-16">
+      <div class="step-reveal">
+        <p class="font-accent text-xs tracking-[0.3em] uppercase text-electric mb-6">Exam Formats</p>
+      </div>
+      <div class="step-reveal">
+        <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight">
+          Every Format.<br/>
+          <span class="text-steel">One Upload.</span>
+        </h2>
+      </div>
+    </div>
+
+    <!-- Horizontal Scroll Wrapper -->
+    <div id="horizontal-section" class="relative overflow-hidden">
+      <div id="horizontal-track" class="flex gap-8 pl-6 lg:pl-10">
+
+        <!-- Format Card 1: MCQ -->
+        <div class="format-card flex-shrink-0 w-[85vw] sm:w-[60vw] lg:w-[35vw] bg-carbon border border-ash/30 p-8 lg:p-10">
+          <div class="flex items-center justify-between mb-8">
+            <span class="font-accent text-xs tracking-[0.2em] text-electric uppercase">Format 01</span>
+            <div class="w-10 h-10 bg-electric/10 flex items-center justify-center">
+              <span class="text-electric font-display font-bold text-sm">A</span>
+            </div>
+          </div>
+          <h3 class="font-display font-semibold text-3xl mb-4">Multiple Choice</h3>
+          <p class="text-steel mb-8 leading-relaxed">Auto-generated MCQs with intelligent distractors that test true understanding, not just recall. 4-option format with answer keys.</p>
+          <div class="space-y-3 font-mono text-sm text-steel/70">
+            <p class="text-bone/70">Q. Which data structure uses LIFO?</p>
+            <p>○ A) Queue</p>
+            <p class="text-electric">● B) Stack ✓</p>
+            <p>○ C) Array</p>
+            <p>○ D) Linked List</p>
+          </div>
+        </div>
+
+        <!-- Format Card 2: Short Answer -->
+        <div class="format-card flex-shrink-0 w-[85vw] sm:w-[60vw] lg:w-[35vw] bg-carbon border border-ash/30 p-8 lg:p-10">
+          <div class="flex items-center justify-between mb-8">
+            <span class="font-accent text-xs tracking-[0.2em] text-electric uppercase">Format 02</span>
+            <div class="w-10 h-10 bg-electric/10 flex items-center justify-center">
+              <span class="text-electric font-display font-bold text-sm">B</span>
+            </div>
+          </div>
+          <h3 class="font-display font-semibold text-3xl mb-4">Short Answer</h3>
+          <p class="text-steel mb-8 leading-relaxed">Concise 2-5 mark questions targeting key definitions, comparisons, and explanations. Perfect for mid-term assessments.</p>
+          <div class="space-y-3 font-mono text-sm text-steel/70">
+            <p class="text-bone/70">Q1. Define polymorphism. [2 marks]</p>
+            <p class="text-bone/70">Q2. Differentiate between TCP and UDP. [3 marks]</p>
+            <p class="text-bone/70">Q3. List the ACID properties. [2 marks]</p>
+          </div>
+        </div>
+
+        <!-- Format Card 3: Long Essay -->
+        <div class="format-card flex-shrink-0 w-[85vw] sm:w-[60vw] lg:w-[35vw] bg-carbon border border-ash/30 p-8 lg:p-10">
+          <div class="flex items-center justify-between mb-8">
+            <span class="font-accent text-xs tracking-[0.2em] text-electric uppercase">Format 03</span>
+            <div class="w-10 h-10 bg-electric/10 flex items-center justify-center">
+              <span class="text-electric font-display font-bold text-sm">C</span>
+            </div>
+          </div>
+          <h3 class="font-display font-semibold text-3xl mb-4">Long Essay</h3>
+          <p class="text-steel mb-8 leading-relaxed">10-15 mark essay questions that require deep analysis, critical thinking, and comprehensive knowledge synthesis.</p>
+          <div class="space-y-3 font-mono text-sm text-steel/70">
+            <p class="text-bone/70">Q. Explain the OSI model in detail with real-world analogies for each layer. [15 marks]</p>
+            <p class="mt-3 text-electric/60">— Expected: 800-1200 words</p>
+          </div>
+        </div>
+
+        <!-- Format Card 4: Case Study -->
+        <div class="format-card flex-shrink-0 w-[85vw] sm:w-[60vw] lg:w-[35vw] bg-carbon border border-ash/30 p-8 lg:p-10">
+          <div class="flex items-center justify-between mb-8">
+            <span class="font-accent text-xs tracking-[0.2em] text-electric uppercase">Format 04</span>
+            <div class="w-10 h-10 bg-electric/10 flex items-center justify-center">
+              <span class="text-electric font-display font-bold text-sm">D</span>
+            </div>
+          </div>
+          <h3 class="font-display font-semibold text-3xl mb-4">Case Study</h3>
+          <p class="text-steel mb-8 leading-relaxed">Real-world scenario-based assessments with multi-part questions. Ideal for professional and competitive exam preparation.</p>
+          <div class="space-y-3 font-mono text-sm text-steel/70">
+            <p class="text-bone/70">Scenario: A startup needs to migrate from monolith to microservices...</p>
+            <p class="mt-2 text-bone/70">a) Identify key challenges [5]</p>
+            <p class="text-bone/70">b) Propose an architecture [10]</p>
+          </div>
+        </div>
+
+        <!-- Format Card 5: Fill-in-the-Blanks -->
+        <div class="format-card flex-shrink-0 w-[85vw] sm:w-[60vw] lg:w-[35vw] bg-carbon border border-ash/30 p-8 lg:p-10">
+          <div class="flex items-center justify-between mb-8">
+            <span class="font-accent text-xs tracking-[0.2em] text-electric uppercase">Format 05</span>
+            <div class="w-10 h-10 bg-electric/10 flex items-center justify-center">
+              <span class="text-electric font-display font-bold text-sm">E</span>
+            </div>
+          </div>
+          <h3 class="font-display font-semibold text-3xl mb-4">Fill in the Blanks</h3>
+          <p class="text-steel mb-8 leading-relaxed">Precision-targeted recall questions with strategically placed blanks at key concept points. Great for quick revision tests.</p>
+          <div class="space-y-3 font-mono text-sm text-steel/70">
+            <p class="text-bone/70">1. The process of converting source code to machine code is called <span class="border-b border-electric/50 px-4">______</span></p>
+            <p class="text-bone/70">2. HTTP status code <span class="border-b border-electric/50 px-4">______</span> means "Not Found"</p>
+          </div>
+        </div>
+
+        <!-- Spacer -->
+        <div class="flex-shrink-0 w-16"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================ -->
+  <!-- SECTION 4: FEATURES -->
+  <!-- ================================ -->
+  <section id="features" class="relative py-32 lg:py-44 px-6 z-10">
+    <div class="max-w-7xl mx-auto">
+      <div class="step-reveal mb-6">
+        <p class="font-accent text-xs tracking-[0.3em] uppercase text-electric">Why ExamForge</p>
+      </div>
+      <div class="step-reveal mb-20 lg:mb-28">
+        <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight">
+          Built for<br/>
+          <span class="text-steel">Serious Prep.</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+
+        <!-- Feature 1 -->
+        <div class="feature-card step-reveal bg-carbon border border-ash/30 p-8 hover:border-electric/30 transition-all duration-500">
+          <div class="w-12 h-12 bg-electric/10 flex items-center justify-center mb-6">
+            <svg class="w-5 h-5 text-electric" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-3">Instant Generation</h3>
+          <p class="text-steel text-sm leading-relaxed">From upload to exam paper in under 30 seconds. No manual question framing ever again.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card step-reveal bg-carbon border border-ash/30 p-8 hover:border-electric/30 transition-all duration-500">
+          <div class="w-12 h-12 bg-electric/10 flex items-center justify-center mb-6">
+            <svg class="w-5 h-5 text-electric" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-3">Exam-Accurate</h3>
+          <p class="text-steel text-sm leading-relaxed">Questions follow university and competitive exam patterns — GATE, NET, UPSC, and university-specific formats.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card step-reveal bg-carbon border border-ash/30 p-8 hover:border-electric/30 transition-all duration-500">
+          <div class="w-12 h-12 bg-electric/10 flex items-center justify-center mb-6">
+            <svg class="w-5 h-5 text-electric" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-3">Multiple Formats</h3>
+          <p class="text-steel text-sm leading-relaxed">MCQs, short answers, essays, case studies, fill-in-the-blanks — all from a single upload.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card step-reveal bg-carbon border border-ash/30 p-8 hover:border-electric/30 transition-all duration-500">
+          <div class="w-12 h-12 bg-electric/10 flex items-center justify-center mb-6">
+            <svg class="w-5 h-5 text-electric" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-3">Difficulty Control</h3>
+          <p class="text-steel text-sm leading-relaxed">Set difficulty from beginner to advanced. Mix Bloom's taxonomy levels to match your grading rubric.</p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="feature-card step-reveal bg-carbon border border-ash/30 p-8 hover:border-electric/30 transition-all duration-500">
+          <div class="w-12 h-12 bg-electric/10 flex items-center justify-center mb-6">
+            <svg class="w-5 h-5 text-electric" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-3">Export Anywhere</h3>
+          <p class="text-steel text-sm leading-relaxed">Download as PDF, DOCX, or print-ready format. Share with students or use in official assessments.</p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="feature-card step-reveal bg-carbon border border-ash/30 p-8 hover:border-electric/30 transition-all duration-500">
+          <div class="w-12 h-12 bg-electric/10 flex items-center justify-center mb-6">
+            <svg class="w-5 h-5 text-electric" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+            </svg>
+          </div>
+          <h3 class="font-display font-semibold text-xl mb-3">Answer Keys</h3>
+          <p class="text-steel text-sm leading-relaxed">Every generated paper comes with detailed answer keys and marking schemes for effortless evaluation.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================== -->
+  <!-- SECTION 5: CTA / EXAM PATHS -->
+  <!-- ======================================== -->
+  <section id="paths" class="relative py-32 lg:py-44 px-6 z-10">
+    <div class="max-w-5xl mx-auto text-center">
+      <div class="step-reveal mb-6">
+        <p class="font-accent text-xs tracking-[0.3em] uppercase text-electric">Choose Your Path</p>
+      </div>
+      <div class="step-reveal mb-6">
+        <h2 class="font-display font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight">
+          What Are You<br/>
+          <span class="text-electric">Preparing For?</span>
+        </h2>
+      </div>
+      <div class="step-reveal mb-16">
+        <p class="text-steel text-lg max-w-xl mx-auto">Choose your track and let our AI tailor the question paper format, difficulty, and structure to match.</p>
+      </div>
+
+      <!-- Path Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+
+        <!-- College Path -->
+        <div class="step-reveal">
+          <div class="path-card group bg-carbon border border-ash/30 p-10 lg:p-12 text-left hover:border-electric/50 transition-all duration-500 cursor-pointer">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-3 h-3 bg-electric"></div>
+              <span class="font-accent text-xs tracking-[0.2em] text-electric uppercase">Track A</span>
+            </div>
+            <h3 class="font-display font-bold text-3xl lg:text-4xl mb-4">College<br/>Exam Path</h3>
+            <p class="text-steel mb-8 leading-relaxed">Semester exams, internal assessments, and university-pattern question papers. Mapped to your exact syllabus.</p>
+            <button id="btn-college" class="magnetic-btn inline-flex items-center gap-3 px-8 py-4 bg-electric text-obsidian font-display font-semibold text-sm group-hover:brightness-110 transition-all duration-300">
+              <span>Start College Prep</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Competitive Path -->
+        <div class="step-reveal">
+          <div class="path-card group bg-carbon border border-ash/30 p-10 lg:p-12 text-left hover:border-volt/50 transition-all duration-500 cursor-pointer">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-3 h-3 bg-volt"></div>
+              <span class="font-accent text-xs tracking-[0.2em] text-volt uppercase">Track B</span>
+            </div>
+            <h3 class="font-display font-bold text-3xl lg:text-4xl mb-4">Competitive<br/>Exam Path</h3>
+            <p class="text-steel mb-8 leading-relaxed">GATE, NET, UPSC, CAT, JEE, NEET — our AI knows the patterns. Get exam-accurate practice papers instantly.</p>
+            <button id="btn-competitive" class="magnetic-btn inline-flex items-center gap-3 px-8 py-4 bg-volt text-obsidian font-display font-semibold text-sm group-hover:brightness-110 transition-all duration-300">
+              <span>Start Competitive Prep</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================ -->
+  <!-- SECTION 6: FOOTER -->
+  <!-- ================================ -->
+  <footer id="footer" class="relative py-16 px-6 border-t border-ash/20 z-10">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+        <!-- Brand -->
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="font-display font-bold text-base tracking-tight text-bone">EXAMFORGE</span>
+            <span class="text-[10px] font-mono bg-electric text-obsidian px-1.5 py-0.5 rounded font-bold">AI</span>
+          </div>
+          <p class="text-steel text-sm max-w-sm leading-relaxed">AI-powered exam generation that transforms how educators create assessments and students prepare for exams.</p>
+        </div>
+        <!-- Links -->
+        <div>
+          <h4 class="font-display font-semibold text-sm mb-4">Product</h4>
+          <ul class="space-y-2 text-steel text-sm">
+            <li><a href="#" class="hover:text-bone transition-colors">Features</a></li>
+            <li><a href="#" class="hover:text-bone transition-colors">Pricing</a></li>
+            <li><a href="#" class="hover:text-bone transition-colors">API</a></li>
+            <li><a href="#" class="hover:text-bone transition-colors">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-display font-semibold text-sm mb-4">Company</h4>
+          <ul class="space-y-2 text-steel text-sm">
+            <li><a href="#" class="hover:text-bone transition-colors">About</a></li>
+            <li><a href="#" class="hover:text-bone transition-colors">Blog</a></li>
+            <li><a href="#" class="hover:text-bone transition-colors">Careers</a></li>
+            <li><a href="#" class="hover:text-bone transition-colors">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-ash/20">
+        <p class="text-steel text-xs">© 2026 ExamForge AI. All rights reserved.</p>
+        <div class="flex gap-6 mt-4 md:mt-0">
+          <a href="#" class="text-steel text-xs hover:text-bone transition-colors">Privacy</a>
+          <a href="#" class="text-steel text-xs hover:text-bone transition-colors">Terms</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================================ -->
+  <!-- SCRIPTS (CDN) -->
+  <!-- ================================ -->
+  <!-- GSAP + ScrollTrigger -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <!-- Lenis Smooth Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+  <!-- App Script -->
+  <script src="app.js"></script>
+
+</body>
+</html>

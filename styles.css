@@ -1,0 +1,313 @@
+/* ============================================
+   ExamForge AI — Custom Styles
+   Dark theme with lime-green accents,
+   matching magic-receipt.ai aesthetic.
+   ============================================ */
+
+/* ---- Global Reset & Base ---- */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+::selection {
+  background: #9F1D35;
+  color: #F4F3ED;
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F4F3ED;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1E2320;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9F1D35;
+}
+
+/* ---- Hero Text Reveal Masks ---- */
+.hero-line {
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-text {
+  transform: translateY(110%);
+  will-change: transform;
+}
+
+/* ---- Step Cards ---- */
+.step-card {
+  will-change: transform, opacity;
+}
+
+/* ---- Format Cards (Horizontal Scroll) ---- */
+.format-card {
+  will-change: transform;
+  transition: border-color 0.5s ease;
+}
+
+.format-card:hover {
+  border-color: rgba(159, 29, 53, 0.4);
+}
+
+/* ---- Feature Cards ---- */
+.feature-card {
+  will-change: transform, opacity;
+}
+
+/* ---- Parallax Elements ---- */
+.parallax-el {
+  position: absolute;
+  will-change: transform;
+  transition: none;
+}
+
+.parallax-el svg {
+  filter: drop-shadow(0 0 12px rgba(159, 29, 53, 0.15));
+}
+
+.parallax-el span {
+  text-shadow: 0 0 15px rgba(159, 29, 53, 0.2);
+}
+
+/* ---- Magnetic Buttons ---- */
+.magnetic-btn {
+  position: relative;
+  will-change: transform;
+  transition: background-color 0.3s ease;
+}
+
+/* ---- Navbar ---- */
+#navbar {
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#navbar.scrolled {
+  /* pill already has glass effect via Tailwind classes */
+}
+
+/* ---- Intelligence Pulse (accent line) ---- */
+.pulse-line {
+  height: 2px;
+  background: linear-gradient(90deg, #9F1D35 0%, #D4AF37 50%, #9F1D35 100%);
+  width: 100%;
+  opacity: 0.6;
+}
+
+#horizontal-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+#horizontal-track {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* ---- Path Cards Glow on Hover ---- */
+.path-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.path-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(159, 29, 53, 0.06) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.path-card:hover::before {
+  opacity: 1;
+}
+
+/* ---- Responsive Tweaks ---- */
+@media (max-width: 768px) {
+  #hero h1 {
+    font-size: 3rem !important;
+    line-height: 0.95 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #hero h1 {
+    font-size: 2.2rem !important;
+  }
+}
+
+/* ---- Loading Screen ---- */
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #F4F3ED;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+#loader .loader-bar {
+  width: 60px;
+  height: 2px;
+  background: #9F1D35;
+  animation: loaderPulse 1s ease-in-out infinite;
+}
+
+@keyframes loaderPulse {
+  0%, 100% { opacity: 0.3; transform: scaleX(1); }
+  50% { opacity: 1; transform: scaleX(1.8); }
+}
+
+/* ---- Processing Dots ---- */
+.processing-dot {
+  animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* ---- Sparkle Animation ---- */
+.sparkle-anim {
+  animation: sparkleRotate 3s ease-in-out infinite;
+}
+
+@keyframes sparkleRotate {
+  0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.5; }
+  50% { transform: rotate(180deg) scale(1.2); opacity: 1; }
+}
+
+/* ============================================
+   SCROLLYTELLING SECTION STYLES
+   ============================================ */
+
+/* Terminal frame outer glow */
+#scrolly-frame {
+  box-shadow:
+    0 0 60px rgba(159, 29, 53, 0.03),
+    0 0 120px rgba(30, 35, 32, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Scan line glow effect */
+#scrolly-scanline {
+  box-shadow: 0 0 12px rgba(159, 29, 53, 0.6), 0 0 30px rgba(159, 29, 53, 0.2);
+}
+
+/* Active phase bar */
+.scrolly-bar.active {
+  background: #9F1D35 !important;
+  box-shadow: 0 0 6px rgba(159, 29, 53, 0.5);
+}
+
+/* Active thumbnail (currently scanning) */
+.scrolly-thumb.active {
+  border-color: #9F1D35 !important;
+  background: rgba(159, 29, 53, 0.08) !important;
+  box-shadow: 0 0 8px rgba(159, 29, 53, 0.2);
+}
+
+.scrolly-thumb.active .thumb-bar {
+  background: rgba(159, 29, 53, 0.5) !important;
+}
+
+/* Completed thumbnail (done scanning) */
+.scrolly-thumb.done {
+  border-color: rgba(159, 29, 53, 0.3) !important;
+  background: rgba(159, 29, 53, 0.04) !important;
+}
+
+.scrolly-thumb.done .thumb-bar {
+  background: rgba(159, 29, 53, 0.3) !important;
+}
+
+/* Textbook page shadow */
+#scrolly-textbook > div {
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Question paper glow */
+#scrolly-qpaper > div {
+  box-shadow:
+    0 20px 40px rgba(30, 35, 32, 0.15),
+    0 0 20px rgba(159, 29, 53, 0.05);
+}
+
+/* Completion checkmark glow */
+#scrolly-complete svg {
+  filter: drop-shadow(0 0 20px rgba(159, 29, 53, 0.4));
+}
+
+/* Status text monospace style */
+#scrolly-status {
+  font-family: 'JetBrains Mono', monospace;
+  text-shadow: 0 0 10px rgba(159, 29, 53, 0.1);
+}
+
+/* Responsive adjustments for scrollytelling */
+@media (max-width: 768px) {
+  #scrolly-frame {
+    height: 70vh;
+  }
+
+  #scrolly-textbook {
+    width: 200px !important;
+  }
+
+  #scrolly-qpaper {
+    width: 220px !important;
+  }
+
+  #scrolly-thumbs {
+    display: none !important;
+  }
+
+  #scrolly-status {
+    font-size: 10px;
+  }
+}
