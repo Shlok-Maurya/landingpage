@@ -301,6 +301,13 @@ html.lenis, html.lenis body {
 }
 
 /* Responsive adjustments for scrollytelling */
+@media (max-width: 1440px) {
+  #scrolly-frame {
+    transform: scale(0.9);
+    transform-origin: center center;
+  }
+}
+
 @media (max-width: 1024px) {
   #scrolly-frame {
     width: 900px !important;
@@ -339,4 +346,3 @@ html.lenis, html.lenis body {
     font-size: 10px;
   }
 }
-
