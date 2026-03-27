@@ -382,6 +382,13 @@ img, video, canvas, svg {
 }
 
 /* ---- Height-based scaling for laptops with shorter screens ---- */
+@media (max-height: 900px) and (min-width: 768px) {
+  /* Fix: shift scanned pages down to prevent top clipping on 13" laptops */
+  .scrolly-page {
+    top: 55% !important;
+  }
+}
+
 @media (max-height: 850px) and (min-width: 1025px) {
   #scrolly-frame {
     transform: scale(0.85);
@@ -394,4 +401,11 @@ img, video, canvas, svg {
     transform: scale(0.75);
     transform-origin: center center;
   }
+
+  .scrolly-page {
+    top: 58% !important;
+  }
 }
+
+
+
