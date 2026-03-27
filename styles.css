@@ -1,7 +1,6 @@
 /* ============================================
    ExamForge AI — Custom Styles
-   Dark theme with lime-green accents,
-   matching magic-receipt.ai aesthetic.
+   Mobile-first responsive design.
    ============================================ */
 
 /* ---- Global Reset & Base ---- */
@@ -18,6 +17,7 @@ html {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 html.lenis, html.lenis body {
@@ -39,6 +39,20 @@ html.lenis, html.lenis body {
 ::selection {
   background: #9F1D35;
   color: #F4F3ED;
+}
+
+/* ---- Responsive Media ---- */
+img, video, canvas, svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---- Container System ---- */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
 }
 
 /* ---- Scrollbar ---- */
@@ -67,6 +81,12 @@ html.lenis, html.lenis body {
 .hero-text {
   transform: translateY(110%);
   will-change: transform;
+}
+
+/* ---- Hero Responsive Font (fluid scaling via clamp) ---- */
+#hero h1 {
+  font-size: clamp(2.2rem, 5vw + 1rem, 6.5rem) !important;
+  line-height: 0.9 !important;
 }
 
 /* ---- Step Cards ---- */
@@ -116,8 +136,6 @@ html.lenis, html.lenis body {
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* #navbar.scrolled pill already has glass effect via Tailwind classes */
-
 /* ---- Intelligence Pulse (accent line) ---- */
 .pulse-line {
   height: 2px;
@@ -158,33 +176,6 @@ html.lenis, html.lenis body {
 
 .path-card:hover::before {
   opacity: 1;
-}
-
-/* ---- Responsive Tweaks ---- */
-@media (max-width: 1024px) {
-  #hero h1 {
-    font-size: 4.5rem !important;
-  }
-}
-
-@media (max-width: 768px) {
-  #hero h1 {
-    font-size: 3rem !important;
-    line-height: 0.95 !important;
-  }
-  /* Hide non-essential parallax on tablet/mobile */
-  .parallax-el:nth-child(n+5) {
-    display: none !important;
-  }
-}
-
-@media (max-width: 480px) {
-  #hero h1 {
-    font-size: 2.2rem !important;
-  }
-  .parallax-el:nth-child(n+3) {
-    display: none !important;
-  }
 }
 
 /* ---- Loading Screen ---- */
@@ -300,33 +291,42 @@ html.lenis, html.lenis body {
   text-shadow: 0 0 10px rgba(159, 29, 53, 0.1);
 }
 
-/* Responsive adjustments for scrollytelling */
-@media (max-width: 1440px) {
-  #scrolly-frame {
-    transform: scale(0.9);
-    transform-origin: center center;
-  }
+/* ============================================
+   MOBILE-FIRST RESPONSIVE DESIGN
+   Base = mobile (< 480px)
+   Scale up with min-width breakpoints
+   ============================================ */
+
+/* ---- MOBILE DEFAULT (< 480px) ---- */
+
+/* Parallax: show only first 2 on smallest screens */
+.parallax-el:nth-child(n+3) {
+  display: none !important;
 }
 
-@media (max-width: 1024px) {
-  #scrolly-frame {
-    width: 900px !important;
-    max-width: none !important;
-    transform: scale(0.85);
-    transform-origin: center center;
-  }
+/* Scrollytelling: compact for small screens */
+#scrolly-frame {
+  width: 92vw !important;
+  max-width: none !important;
+  transform: scale(0.48);
+  transform-origin: center center;
 }
 
-@media (max-width: 768px) {
+#scrolly-thumbs {
+  display: none !important;
+}
+
+#scrolly-status {
+  font-size: 10px;
+}
+
+/* ---- SMALL MOBILE + (≥ 480px) ---- */
+@media (min-width: 480px) {
+  /* Parallax: still restrict to first 2 */
+
+  /* Scrollytelling: slightly larger */
   #scrolly-frame {
-    width: 800px !important;
-    max-width: none !important;
     transform: scale(0.65);
-    transform-origin: center center;
-  }
-
-  #scrolly-thumbs {
-    display: none !important;
   }
 
   #scrolly-status {
@@ -334,15 +334,64 @@ html.lenis, html.lenis body {
   }
 }
 
-@media (max-width: 480px) {
+/* ---- TABLET (≥ 768px) ---- */
+@media (min-width: 768px) {
+  /* Parallax: show up to 4 elements */
+  .parallax-el:nth-child(n+3) {
+    display: block !important;
+  }
+  .parallax-el:nth-child(n+5) {
+    display: none !important;
+  }
+
+  /* Scrollytelling: medium scale */
   #scrolly-frame {
-    width: 750px !important;
-    max-width: none !important;
-    transform: scale(0.48);
+    transform: scale(0.8);
+  }
+
+  #scrolly-thumbs {
+    display: flex !important;
+  }
+
+  #scrolly-status {
+    font-size: inherit;
+  }
+}
+
+/* ---- DESKTOP (≥ 1024px) ---- */
+@media (min-width: 1024px) {
+  /* Parallax: show all */
+  .parallax-el:nth-child(n+5) {
+    display: block !important;
+  }
+
+  /* Scrollytelling: near-full scale */
+  #scrolly-frame {
+    width: 92vw !important;
+    max-width: 1100px !important;
+    transform: scale(0.9);
+  }
+}
+
+/* ---- LARGE DESKTOP (≥ 1440px) ---- */
+@media (min-width: 1440px) {
+  /* Scrollytelling: full scale */
+  #scrolly-frame {
+    transform: none;
+  }
+}
+
+/* ---- Height-based scaling for laptops with shorter screens ---- */
+@media (max-height: 850px) and (min-width: 1025px) {
+  #scrolly-frame {
+    transform: scale(0.85);
     transform-origin: center center;
   }
-  
-  #scrolly-status {
-    font-size: 10px;
+}
+
+@media (max-height: 720px) and (min-width: 1025px) {
+  #scrolly-frame {
+    transform: scale(0.75);
+    transform-origin: center center;
   }
 }

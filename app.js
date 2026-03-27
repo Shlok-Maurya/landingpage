@@ -111,12 +111,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
     });
+    
+    // Initialize all animated elements to be centered
+    gsap.set(['.scrolly-page', '#scrolly-qp1', '#scrolly-qp2', '#scrolly-qp3', '#scrolly-complete'], {
+      xPercent: -50,
+      yPercent: -50,
+      x: 0,
+      y: 0
+    });
+    
+    // Set initial off-screen (bottom) position for scanning pages
+    gsap.set(['#scrolly-page1', '#scrolly-page2', '#scrolly-page3'], {
+      yPercent: 80 
+    });
 
     // ---- PAGE 1: Data Structures (0 - 20) ----
     scrollyTL.to('#scrolly-page1', {
       opacity: 1, duration: 5, ease: 'power2.out',
-      yPercent: -50,
-      onStart: () => { gsap.set('#scrolly-page1', { transform: 'translate(-50%, -50%)' }); }
+      yPercent: -50
     }, 0);
     scrollyTL.to('#scrolly-scanline', { opacity: 1, duration: 1 }, 5);
     scrollyTL.fromTo('#scrolly-scanline', { top: '22%' }, { top: '75%', duration: 8, ease: 'none' }, 6);
@@ -127,8 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---- PAGE 2: Operating Systems (20 - 40) ----
     scrollyTL.to('#scrolly-page2', {
       opacity: 1, duration: 5, ease: 'power2.out',
-      yPercent: -50,
-      onStart: () => { gsap.set('#scrolly-page2', { transform: 'translate(-50%, -50%)' }); }
+      yPercent: -50
     }, 20);
     scrollyTL.to('#scrolly-scanline', { opacity: 1, duration: 1 }, 25);
     scrollyTL.fromTo('#scrolly-scanline', { top: '22%' }, { top: '75%', duration: 8, ease: 'none' }, 26);
@@ -138,35 +149,31 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---- PAGE 3: Computer Networks (40 - 60) ----
     scrollyTL.to('#scrolly-page3', {
       opacity: 1, duration: 5, ease: 'power2.out',
-      yPercent: -50,
-      onStart: () => { gsap.set('#scrolly-page3', { transform: 'translate(-50%, -50%)' }); }
+      yPercent: -50
     }, 40);
     scrollyTL.to('#scrolly-scanline', { opacity: 1, duration: 1 }, 45);
     scrollyTL.fromTo('#scrolly-scanline', { top: '22%' }, { top: '75%', duration: 8, ease: 'none' }, 46);
     scrollyTL.to('#scrolly-scanline', { opacity: 0, duration: 1 }, 54);
-    scrollyTL.to('#scrolly-page3', { opacity: 0, scale: 0.9, duration: 5, ease: 'power2.in' }, 56);
+    scrollyTL.to('#scrolly-page3', { opacity: 0, scale: 0.9, duration: 5, ease: 'power2.in', yPercent: -80 }, 56);
     scrollyTL.to('#scrolly-thumbs', { opacity: 0, duration: 3, ease: 'power2.in' }, 56);
 
     // ---- 3 QUESTION PAPERS SIDE BY SIDE (60 - 82) ----
     // Left paper (QP2 - OS) tilted left
     scrollyTL.to('#scrolly-qp2', {
       opacity: 1, scale: 0.8,
-      xPercent: -50, yPercent: -50,
-      x: -150, y: -20, rotation: -6,
+      x: -140, y: 0, rotation: -6,
       duration: 8, ease: 'power3.out'
     }, 62);
     // Center paper (QP1 - DS) straight
     scrollyTL.to('#scrolly-qp1', {
       opacity: 1, scale: 0.8,
-      xPercent: -50, yPercent: -50,
-      x: 0, y: 0, rotation: 0,
+      x: 0, y: -20, rotation: 0,
       duration: 8, ease: 'power3.out'
     }, 65);
     // Right paper (QP3 - CN) tilted right
     scrollyTL.to('#scrolly-qp3', {
       opacity: 1, scale: 0.8,
-      xPercent: -50, yPercent: -50,
-      x: 150, y: -20, rotation: 6,
+      x: 140, y: 0, rotation: 6,
       duration: 8, ease: 'power3.out'
     }, 68);
 
